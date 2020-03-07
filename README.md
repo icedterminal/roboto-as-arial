@@ -10,17 +10,13 @@ Before you attempt this, create a restore point. Though nothing has happened to 
 
 ## How To
 
-There are two ways: Run a script, or do it all manually.
-
-The PowerShell script removes the fonts themselves, registry links, the Arial SxS directory and the manifest. If you don't remove the manifest and the SxS store, then Windows will restore the original Arial fonts during a system clean up. Don't fret, because DISM will pass a clean up if the files aren't counted. Because they're not there!
-
-If you want to use the script, follow the directions below:
+There are two ways: Run a script, or do it all manually. If you want to use the script, follow the directions below:
 
 1. Open PowerShell as admin (Win + X, A)
 2. Type or copy/paste in: `set-executionpolicy unrestricted`
     - If you don't do this, you can't run the script which makes this job ten times easier.
 3. Clone/Download/Save this repo.
-4. Extract the contents to your desktop.
+4. Extract the contents to your desktop. Example:
 
 ![desktop](https://i.imgur.com/efgsOKH.png)
 
@@ -29,19 +25,25 @@ If you want to use the script, follow the directions below:
     - If you encounter any errors please open an issue.
 7. Optional: You can restore or revert the policy of PowerShell scripts with `set-executionpolicy restricted`
 
+If you want to do it all yourself, have at it.
+
 ## Well... shucks
 
-Updates have a chance to undo all of this. If you notice it, repeat the how-to. OS upgrades (eg: 1809 to 1903) will restore good 'ol ugly Arial.
+Updates have a chance to undo all of this. If you notice it, repeat the process to replace. OS upgrades (eg: 1809 to 1903) will restore good 'ol ugly Arial.
 
 ## Notes
 
-I purposefully made the script explicit. One by one. I could have condensed it down as others would call it "more efficient", but elected not to. I realise some people might not fully understand what the script does. And laying it all out makes it more understandable. So you see every action it makes as you read over it. Feel free to scrutinise it if you have any doubts.
+I purposefully made the script explicit. One by one. I could have condensed it down as others would call it "more efficient", but elected not to. I realise some people might not fully understand what the script does. And laying it all out makes it slightly more understandable. So you see every action it makes as you read over it. Feel free to scrutinise it if you have any doubts.
 
-While the script runs, when it gets to the SxS portion it will appear to hang. It does not in reality. It is searching the SxS directory for the associated Arial backups. Due to the unique nature of SxS, they are not always named the same. As such the script uses a wildcard approach. The directories take the build version of the OS in name. If I had used to the exact naming scheme from the test VM, it would only target a specific verison of 1909.
+The PowerShell script removes the fonts themselves, registry links, the Arial SxS directory and the manifest. Then copies the replacements fonts and links them with the registry. For those of you that do not know what the SxS store is, Windows will restore the original Arial fonts during a system clean up through the use of DISM. This defeats the purpose of replacing the fonts. So it has to go. Don't fret about future use, because DISM will pass a clean up if the files aren't counted. Because they're not there! Leaving the SxS sources there has some implications later down the line if you do have system errors that are entirely unrelated.
 
-I tested this script multiple times over with different versions of Windows 10 in VM and had no issues.
+While the script runs, when it gets to the SxS portion it will appear to hang. In reality it does not. It is searching the SxS directory for the associated Arial backups. Due to the unique nature of SxS, they are not always named the same. As such the script uses a wildcard approach. The directories take the build version of the OS in name. If I had used to the exact naming scheme from the test VMs, it would only target a specific verison of 1909.
 
-# Legal stuff
+I tested this script multiple times over with different versions of Windows 10 in VMs and had no issues. While there should be no complications using Roboto, there is an off chance something may not render correctly. Which is exactly why I mention to make a restore point prior. In addition to the script copying the originals and making sure the Roboto font files have permissions that allow you to remove them.
+
+If you're wondering how this was/is possible, [allow me to break it down for you](https://getyarn.io/yarn-clip/75e5f36f-f484-4cc7-bc8d-d59c1cc0a4bb). I downloaded [Roboto v2](https://fonts.google.com/specimen/Roboto). Opened only the fonts I needed to replace Arial with in [FontCreator](https://www.high-logic.com/font-editor/fontcreator). Changed just the naming scheme while leaving everything else intact. Export. Done.
+
+# ReAlLY important bits
 
 If you use the script, do keep in mind you are using at your own risk.
 
