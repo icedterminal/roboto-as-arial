@@ -37,7 +37,9 @@ Updates have a chance to undo all of this. If you notice it, repeat the how-to. 
 
 I purposefully made the script explicit. One by one. I could have condensed it down as others would call it "more efficient", but elected not to. I realise some people might not fully understand what the script does. And laying it all out makes it more understandable. So you see every action it makes as you read over it. Feel free to scrutinise it if you have any doubts.
 
-I tested this script multiple times over with different versions of Windows 10 in VM.
+While the script runs, when it gets to the SxS portion it will appear to hang. It does not in reality. It is searching the SxS directory for the associated Arial backups. Due to the unique nature of SxS, they are not always named the same. As such the script uses a wildcard approach. The directories take the build version of the OS in name. If I had used to the exact naming scheme from the test VM, it would only target a specific verison of 1909.
+
+I tested this script multiple times over with different versions of Windows 10 in VM and had no issues.
 
 # Legal stuff
 
