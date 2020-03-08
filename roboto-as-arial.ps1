@@ -2,10 +2,10 @@
 
 Roboto by Christian Robertson is licensed under the Apache License 2.0.
 Roboto-as-Arial project is licensed under the Apache License 2.0.
-If you use the script, do keep in mind you are using at your own risk!
-A backup of the original ArialMT fonts are stored in $env:USERPROFILE\Documents\ArialMT_Backup
+If you use the script, do keep in mind you are using it at your own risk!
+A backup of the original ArialMT fonts are stored in $env:USERPROFILE\Documents\ArialMT_Backup"
 
-Please close all other running applications as this will prohibit the deletion of Arial!"
+Write-Host "Please close all other running applications as this will prohibit the deletion of Arial!" -ForegroundColor Red
 
 $title    = 'You must accept the terms and license to continue.'
 $question = 'Do you agree?'
@@ -17,14 +17,14 @@ if ($decision -eq 0) {
 } else {
     Write-Host 'cancelled'
 }
-Write-Host "======================== Delete reg entries..." -ForegroundColor Yellow
+Write-Host "======================== Delete existing Arial registry entries..." -ForegroundColor Yellow
 # We have to delete the existing fonts from the system registry.
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial (TrueType)"
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Bold (TrueType)"
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Bold Italic (TrueType)"
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Italic (TrueType)"
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Black (TrueType)"
-Write-Host "======================== Permissions..." -ForegroundColor Yellow
+Write-Host "======================== Replace existing Arial permissions..." -ForegroundColor Yellow
 cd "$env:WINDIR\Fonts"
 # take ownership
 takeown /f arial.ttf /a
@@ -64,20 +64,20 @@ icacls ariblk.ttf /t /grant Users:F
 icacls ariblk.ttf /t /grant SYSTEM:F
 icacls ariblk.ttf /t /grant Everyone:F
 icacls ariblk.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-Write-Host "======================== Backup fonts..." -ForegroundColor Yellow
+Write-Host "======================== Backup existing Arial..." -ForegroundColor Yellow
 # we must backup the original arial family just in case.
 New-Item -Path "$env:USERPROFILE\Documents" -Name "ArialMT_Backup" -ItemType "directory"
 Start-Sleep -s 2 > $null
 Copy-Item "$env:WINDIR\Fonts\ari*.ttf" -Destination "$env:USERPROFILE\Documents\ArialMT_Backup"
 Start-Sleep -s 2 > $null
-Write-Host "======================== Delete fonts..." -ForegroundColor Yellow
+Write-Host "======================== Delete current Arial..." -ForegroundColor Yellow
 # goodbye!
-Remove-Item -Path $env:WINDIR\Fonts\arial.ttf -Force
-Remove-Item -Path $env:WINDIR\Fonts\arialbd.ttf -Force
-Remove-Item -Path $env:WINDIR\Fonts\arialbi.ttf -Force
-Remove-Item -Path $env:WINDIR\Fonts\ariali.ttf -Force
-Remove-Item -Path $env:WINDIR\Fonts\ariblk.ttf -Force
-Write-Host "======================== Permissions..." -ForegroundColor Yellow
+Remove-Item arial.ttf -Force
+Remove-Item arialbd.ttf -Force
+Remove-Item arialbi.ttf -Force
+Remove-Item ariali.ttf -Force
+Remove-Item ariblk.ttf -Force
+Write-Host "======================== Replace existing Arial SxS Permissions..." -ForegroundColor Yellow
 cd "$env:WINDIR\WinSxS"
 # again with the permissions but this time with the SxS store.
 takeown /f amd64_microsoft-windows-font-truetype-arial* /r /a
@@ -109,7 +109,7 @@ icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Users:
 icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant SYSTEM:F
 icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Everyone:F
 icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant "NT SERVICE\TrustedInstaller:F"
-Write-Host "======================== Delete SxS..." -ForegroundColor Yellow
+Write-Host "======================== Delete Arial SxS..." -ForegroundColor Yellow
 # goodbye!
 cd "$env:WINDIR\WinSxS"
 Remove-Item amd64_microsoft-windows-font-truetype-arial*.manifest -Force
@@ -119,11 +119,11 @@ Remove-Item amd64_microsoft-windows-f..truetype-arialblack* -Recurse -Force
 cd "$env:WINDIR\WinSxS\Manifests"
 Remove-Item amd64_microsoft-windows-font-truetype-arial*.manifest -Force
 Remove-Item amd64_microsoft-windows-f..truetype-arialblack*.manifest -Force
-Write-Host "======================== Copy replacement fonts..." -ForegroundColor Yellow
+Write-Host "======================== Copy replacement Arial fonts..." -ForegroundColor Yellow
 # now we copy over the new fonts.
 cd "$env:WINDIR\Fonts"
 Copy-Item "$env:USERPROFILE\Desktop\roboto-as-arial\*" -Destination "$env:WINDIR\Fonts" -Recurse
-Write-Host "======================== Permissions..." -ForegroundColor Yellow
+Write-Host "======================== Set permissions..." -ForegroundColor Yellow
 icacls arial.ttf /t /grant Administrators:F
 icacls arial.ttf /t /grant Users:F
 icacls arial.ttf /t /grant SYSTEM:F
@@ -149,7 +149,7 @@ icacls ariblk.ttf /t /grant Users:F
 icacls ariblk.ttf /t /grant SYSTEM:F
 icacls ariblk.ttf /t /grant Everyone:F
 icacls ariblk.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-Write-Host "======================== Write reg entries..." -ForegroundColor Yellow
+Write-Host "======================== Write registry entries..." -ForegroundColor Yellow
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial (TrueType)" -Value "arial.ttf"  -PropertyType "String"
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Bold (TrueType)" -Value "arialbd.ttf"  -PropertyType "String"
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial Bold Italic (TrueType)" -Value "arialbi.ttf"  -PropertyType "String"
