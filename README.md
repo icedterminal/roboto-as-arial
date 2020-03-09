@@ -6,7 +6,15 @@ Replace it with Roboto.
 
 ## Undo, Revert, Restore
 
-Before you attempt this, create a restore point. Though nothing has happened to me on any of my VMs or the host system, you never know. Plus if you want the original Arial back, restore is easy. Even if you don't, the script makes a backup copy of the original ArialMT fonts and copies them to your documents folder.
+Before you attempt this, create a restore point. Though nothing has happened to me on any of my VMs or the host system, you never know. Plus if you want the original Arial back, restore is easy. Even if you don't, the script tries to create one for you and makes a backup copy of the original ArialMT fonts and copies them to your documents folder. If you cannot restore, you can put all of the files back in their original place manually.
+
+You can reset permissions with PowerShell.
+    - `icacls $env:WINDIR\Fonts\ari*.ttf /q /c /reset`
+    - `icacls $env:WINDIR\WinSxS\amd64_microsoft-windows-font-truetype-arial* /t /q /c /reset`
+    - `icacls $env:WINDIR\WinSxS\amd64_microsoft-windows-f..truetype-arialblack* /t /q /c /reset`
+    - `icacls $env:WINDIR\WinSxS\Manifests\amd64_microsoft-windows-font-truetype-arial*.manifest /q /c /reset`
+    - `icacls $env:WINDIR\WinSxS\Manifests\amd64_microsoft-windows-f..truetype-arialblack*.manifest /q /c /reset`
+    - `sfc /sannow`
 
 ## How To
 
@@ -39,7 +47,7 @@ The PowerShell script removes the fonts themselves, registry links, the Arial Sx
 
 While the script runs, when it gets to the SxS portion it will appear to hang. In reality it does not. It is searching the SxS directory for the associated Arial backups. Due to the unique nature of SxS, they are not always named the same. As such the script uses a wildcard approach. The directories take the build version of the OS in name. If I had used to the exact naming scheme from the test VMs, it would only target a specific verison of 1909.
 
-I tested this script multiple times over with different versions of Windows 10 in VMs and had no issues. While there should be no complications using Roboto, there is an off chance something may not render correctly. Which is exactly why I mention to make a restore point prior. In addition to the script copying the originals and making sure the Roboto font files have permissions that allow you to remove them.
+I tested this script multiple times over with different versions of Windows 10 in VMs and had no issues. While there should be no complications using Roboto, there is an off chance something may not render correctly. Which is why I mention to make a restore point prior. In addition to the script copying the originals and making sure the Roboto font files have permissions that allow you to remove them.
 
 If you're wondering how this was/is possible, [allow me to break it down for you](https://getyarn.io/yarn-clip/75e5f36f-f484-4cc7-bc8d-d59c1cc0a4bb). I downloaded [Roboto v2](https://fonts.google.com/specimen/Roboto). Opened only the fonts I needed to replace Arial with in [FontCreator](https://www.high-logic.com/font-editor/fontcreator). Changed just the naming scheme while leaving everything else intact. Export. Done.
 
@@ -60,4 +68,3 @@ In no event and under no legal theory, whether in tort (including negligence), c
 Roboto by Christian Robertson is licensed under the Apache License 2.0.
 
 To keep with consistency, the rest of this projects files are also licensed under the Apache License 2.0.
-
