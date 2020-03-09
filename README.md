@@ -9,6 +9,7 @@ Replace it with Roboto.
 Before you attempt this, create a restore point. Though nothing has happened to me on any of my VMs or the host system, you never know. Plus if you want the original Arial back, restore is easy. Even if you don't, the script tries to create one for you and makes a backup copy of the original ArialMT fonts and copies them to your documents folder. If you cannot restore, you can put all of the files back in their original place manually.
 
 You can reset permissions with PowerShell.
+
     - `icacls $env:WINDIR\Fonts\ari*.ttf /q /c /reset`
     - `icacls $env:WINDIR\WinSxS\amd64_microsoft-windows-font-truetype-arial* /t /q /c /reset`
     - `icacls $env:WINDIR\WinSxS\amd64_microsoft-windows-f..truetype-arialblack* /t /q /c /reset`
