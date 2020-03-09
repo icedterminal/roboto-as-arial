@@ -1,9 +1,11 @@
-﻿Write-Host "Roboto-as-Arial is a free and open source script that replaces the system font Arial with Roboto.
+Write-Host "Roboto-as-Arial is a free and open source script that replaces the system font Arial with Roboto.
 
 Roboto by Christian Robertson is licensed under the Apache License 2.0.
 Roboto-as-Arial project is licensed under the Apache License 2.0.
 If you use the script, do keep in mind you are using it at your own risk!
-A backup of the original ArialMT fonts are stored in $env:USERPROFILE\Documents\ArialMT_Backup"
+A backup of the original ArialMT fonts are stored in $env:USERPROFILE\Documents\ArialMT_Backup
+A system restore point will be created if possible. [checkpoint-computer] can only create one checkpoint per day.
+If a checkpoint exists, no restore will be created."
 
 Write-Host "Please close all other running applications as this will prohibit the deletion of Arial!" -ForegroundColor Red
 
@@ -17,6 +19,8 @@ if ($decision -eq 0) {
 } else {
     Write-Host 'cancelled'
 }
+Write-Host "======================== Creating system restore point..." -ForegroundColor Yellow
+Checkpoint-Computer -Description "Roboto as Arial Script"
 Write-Host "======================== Delete existing Arial registry entries..." -ForegroundColor Yellow
 # We have to delete the existing fonts from the system registry.
 Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial (TrueType)"
@@ -33,37 +37,37 @@ takeown /f arialbi.ttf /a
 takeown /f ariali.ttf /a
 takeown /f ariblk.ttf /a
 # strip all permissions
-icacls arial.ttf /inheritance:r
-icacls arialbd.ttf /inheritance:r
-icacls arialbi.ttf /inheritance:r
-icacls ariali.ttf /inheritance:r
-icacls ariblk.ttf /inheritance:r
+icacls arial.ttf /inheritance:r /q
+icacls arialbd.ttf /inheritance:r /q
+icacls arialbi.ttf /inheritance:r /q
+icacls ariali.ttf /inheritance:r /q
+icacls ariblk.ttf /inheritance:r /q
 # grant all full permissions
-icacls arial.ttf /t /grant Administrators:F
-icacls arial.ttf /t /grant Users:F
-icacls arial.ttf /t /grant SYSTEM:F
-icacls arial.ttf /t /grant Everyone:F
-icacls arial.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls arialbd.ttf /t /grant Administrators:F
-icacls arialbd.ttf /t /grant Users:F
-icacls arialbd.ttf /t /grant SYSTEM:F
-icacls arialbd.ttf /t /grant Everyone:F
-icacls arialbd.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls arialbi.ttf /t /grant Administrators:F
-icacls arialbi.ttf /t /grant Users:F
-icacls arialbi.ttf /t /grant SYSTEM:F
-icacls arialbi.ttf /t /grant Everyone:F
-icacls arialbi.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls ariali.ttf /t /grant Administrators:F
-icacls ariali.ttf /t /grant Users:F
-icacls ariali.ttf /t /grant SYSTEM:F
-icacls ariali.ttf /t /grant Everyone:F
-icacls ariali.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls ariblk.ttf /t /grant Administrators:F
-icacls ariblk.ttf /t /grant Users:F
-icacls ariblk.ttf /t /grant SYSTEM:F
-icacls ariblk.ttf /t /grant Everyone:F
-icacls ariblk.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
+icacls arial.ttf /t /grant Administrators:F /q
+icacls arial.ttf /t /grant Users:F /q
+icacls arial.ttf /t /grant SYSTEM:F /q
+icacls arial.ttf /t /grant Everyone:F /q
+icacls arial.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls arialbd.ttf /t /grant Administrators:F /q
+icacls arialbd.ttf /t /grant Users:F /q
+icacls arialbd.ttf /t /grant SYSTEM:F /q
+icacls arialbd.ttf /t /grant Everyone:F /q
+icacls arialbd.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls arialbi.ttf /t /grant Administrators:F /q
+icacls arialbi.ttf /t /grant Users:F /q
+icacls arialbi.ttf /t /grant SYSTEM:F /q
+icacls arialbi.ttf /t /grant Everyone:F /q
+icacls arialbi.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls ariali.ttf /t /grant Administrators:F /q
+icacls ariali.ttf /t /grant Users:F /q
+icacls ariali.ttf /t /grant SYSTEM:F /q
+icacls ariali.ttf /t /grant Everyone:F /q
+icacls ariali.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls ariblk.ttf /t /grant Administrators:F /q
+icacls ariblk.ttf /t /grant Users:F /q
+icacls ariblk.ttf /t /grant SYSTEM:F /q
+icacls ariblk.ttf /t /grant Everyone:F /q
+icacls ariblk.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
 Write-Host "======================== Backup existing Arial..." -ForegroundColor Yellow
 # we must backup the original arial family just in case.
 New-Item -Path "$env:USERPROFILE\Documents" -Name "ArialMT_Backup" -ItemType "directory"
@@ -82,33 +86,43 @@ cd "$env:WINDIR\WinSxS"
 # again with the permissions but this time with the SxS store.
 takeown /f amd64_microsoft-windows-font-truetype-arial* /r /a
 takeown /f amd64_microsoft-windows-f..truetype-arialblack* /r /a
-icacls amd64_microsoft-windows-font-truetype-arial* /inheritance:r
-icacls amd64_microsoft-windows-f..truetype-arialblack* /inheritance:r
-icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Administrators:F
-icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Users:F
-icacls amd64_microsoft-windows-font-truetype-arial* /t /grant SYSTEM:F
-icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Everyone:F
-icacls amd64_microsoft-windows-font-truetype-arial* /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Administrators:F
-icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Users:F
-icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant SYSTEM:F
-icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Everyone:F
-icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant "NT SERVICE\TrustedInstaller:F"
+icacls amd64_microsoft-windows-font-truetype-arial* /inheritance:r /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /inheritance:r /q
+icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Administrators:F /q
+icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Users:F /q
+icacls amd64_microsoft-windows-font-truetype-arial* /t /grant SYSTEM:F /q
+icacls amd64_microsoft-windows-font-truetype-arial* /t /grant Everyone:F /q
+icacls amd64_microsoft-windows-font-truetype-arial* /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Administrators:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Users:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant SYSTEM:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant Everyone:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack* /t /grant "NT SERVICE\TrustedInstaller:F" /q
 cd "$env:WINDIR\WinSxS\Manifests"
 takeown /f amd64_microsoft-windows-font-truetype-arial*.manifest /a
 takeown /f amd64_microsoft-windows-f..truetype-arialblack*.manifest /a
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /inheritance:r
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /inheritance:r
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Administrators:F
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Users:F
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant SYSTEM:F
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Everyone:F
-icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Administrators:F
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Users:F
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant SYSTEM:F
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Everyone:F
-icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant "NT SERVICE\TrustedInstaller:F"
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /inheritance:r /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /inheritance:r /q
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Administrators:F /q
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Users:F /q
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant SYSTEM:F /q
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant Everyone:F /q
+icacls amd64_microsoft-windows-font-truetype-arial*.manifest /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Administrators:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Users:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant SYSTEM:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant Everyone:F /q
+icacls amd64_microsoft-windows-f..truetype-arialblack*.manifest /t /grant "NT SERVICE\TrustedInstaller:F" /q
+Write-Host "======================== Backup existing Arial SxS..." -ForegroundColor Yellow
+New-Item -Path "$env:USERPROFILE\Documents\ArialMT_Backup" -Name "SxS" -ItemType "directory"
+Start-Sleep -s 2 > $null
+cd "$env:WINDIR\WinSxS"
+Copy-Item amd64_microsoft-windows-font-truetype-arial* -Destination "$env:USERPROFILE\Documents\ArialMT_Backup\SxS" -Recurse
+Copy-Item amd64_microsoft-windows-f..truetype-arialblack* -Destination "$env:USERPROFILE\Documents\ArialMT_Backup\SxS" -Recurse
+cd "$env:WINDIR\WinSxS\Manifests"
+Copy-Item amd64_microsoft-windows-font-truetype-arial*.manifest -Destination "$env:USERPROFILE\Documents\ArialMT_Backup\SxS"
+Copy-Item amd64_microsoft-windows-f..truetype-arialblack*.manifest -Destination "$env:USERPROFILE\Documents\ArialMT_Backup\SxS"
+Start-Sleep -s 2 > $null
 Write-Host "======================== Delete Arial SxS..." -ForegroundColor Yellow
 # goodbye!
 cd "$env:WINDIR\WinSxS"
@@ -124,30 +138,30 @@ Write-Host "======================== Copy replacement Arial fonts..." -Foregroun
 cd "$env:WINDIR\Fonts"
 Copy-Item "$env:USERPROFILE\Desktop\roboto-as-arial\*" -Destination "$env:WINDIR\Fonts" -Recurse
 Write-Host "======================== Set permissions..." -ForegroundColor Yellow
-icacls arial.ttf /t /grant Administrators:F
-icacls arial.ttf /t /grant Users:F
-icacls arial.ttf /t /grant SYSTEM:F
-icacls arial.ttf /t /grant Everyone:F
-icacls arial.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls arialbd.ttf /t /grant Administrators:F
-icacls arialbd.ttf /t /grant Users:F
-icacls arialbd.ttf /t /grant SYSTEM:F
-icacls arialbd.ttf /t /grant Everyone:F
-icacls arialbd.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls arialbi.ttf /t /grant Administrators:F
-icacls arialbi.ttf /t /grant Users:F
-icacls arialbi.ttf /t /grant SYSTEM:F
-icacls arialbi.ttf /t /grant Everyone:F
-icacls arialbi.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls ariali.ttf /t /grant Administrators:F
-icacls ariali.ttf /t /grant Users:F
-icacls ariali.ttf /t /grant SYSTEM:F
-icacls ariali.ttf /t /grant Everyone:F
-icacls ariali.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
-icacls ariblk.ttf /t /grant Administrators:F
-icacls ariblk.ttf /t /grant Users:F
-icacls ariblk.ttf /t /grant SYSTEM:F
-icacls ariblk.ttf /t /grant Everyone:F
+icacls arial.ttf /t /grant Administrators:F /q
+icacls arial.ttf /t /grant Users:F /q
+icacls arial.ttf /t /grant SYSTEM:F /q
+icacls arial.ttf /t /grant Everyone:F /q
+icacls arial.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls arialbd.ttf /t /grant Administrators:F /q
+icacls arialbd.ttf /t /grant Users:F /q
+icacls arialbd.ttf /t /grant SYSTEM:F /q
+icacls arialbd.ttf /t /grant Everyone:F /q
+icacls arialbd.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls arialbi.ttf /t /grant Administrators:F /q
+icacls arialbi.ttf /t /grant Users:F /q
+icacls arialbi.ttf /t /grant SYSTEM:F /q
+icacls arialbi.ttf /t /grant Everyone:F /q
+icacls arialbi.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls ariali.ttf /t /grant Administrators:F /q
+icacls ariali.ttf /t /grant Users:F /q
+icacls ariali.ttf /t /grant SYSTEM:F /q
+icacls ariali.ttf /t /grant Everyone:F /q
+icacls ariali.ttf /t /grant "NT SERVICE\TrustedInstaller:F" /q
+icacls ariblk.ttf /t /grant Administrators:F /q
+icacls ariblk.ttf /t /grant Users:F /q
+icacls ariblk.ttf /t /grant SYSTEM:F /q
+icacls ariblk.ttf /t /grant Everyone:F /q
 icacls ariblk.ttf /t /grant "NT SERVICE\TrustedInstaller:F"
 Write-Host "======================== Write registry entries..." -ForegroundColor Yellow
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "Arial (TrueType)" -Value "arial.ttf"  -PropertyType "String"
