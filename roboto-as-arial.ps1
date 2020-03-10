@@ -96,9 +96,7 @@ Start-Sleep -s 2 > $null
 Write-Host "======================== Delete Arial SxS..." -ForegroundColor Yellow
 # goodbye!
 cd "$env:WINDIR\WinSxS"
-Remove-Item amd64_microsoft-windows-font-truetype-arial*.manifest -Force
 Remove-Item amd64_microsoft-windows-font-truetype-arial* -Recurse -Force
-Remove-Item amd64_microsoft-windows-f..truetype-arialblack*.manifest -Force
 Remove-Item amd64_microsoft-windows-f..truetype-arialblack* -Recurse -Force
 cd "$env:WINDIR\WinSxS\Manifests"
 Remove-Item amd64_microsoft-windows-font-truetype-arial*.manifest -Force
