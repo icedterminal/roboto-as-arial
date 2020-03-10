@@ -1,4 +1,6 @@
-Write-Host "Roboto-as-Arial is a free and open source script that replaces the system font Arial with Roboto.
+Write-Host "
+
+Roboto-as-Arial is a free and open source script that replaces the system font Arial with Roboto.
 
 Roboto by Christian Robertson is licensed under the Apache License 2.0.
 Roboto-as-Arial project is licensed under the Apache License 2.0.
@@ -7,7 +9,7 @@ A backup of the original ArialMT fonts are stored in $env:USERPROFILE\Documents\
 A system restore point will be created if possible. [checkpoint-computer] can only create one checkpoint per day.
 If a checkpoint exists, no restore will be created."
 
-Write-Host "Please close all other running applications as this will prohibit the deletion of Arial!" -ForegroundColor Red
+Write-Host "You must close all other running applications as this will prohibit the deletion of Arial!" -ForegroundColor Red -BackgroundColor White
 
 $title    = 'You must accept the terms and license to continue.'
 $question = 'Do you agree?'
