@@ -30,7 +30,7 @@ There are two ways: Run a script, or do it all manually. If you want to use the 
 
 ![desktop](https://i.imgur.com/efgsOKH.png)
 
-5. Run the script. Type or copy/paste in: `$env:USERPROFILE\Desktop\roboto-as-arial.ps1`
+5. Run the script.
 6. When the script completes, reboot.
     - If you encounter any errors please open an issue.
 7. Optional: You can restore or revert the policy of PowerShell scripts with `set-executionpolicy restricted`
@@ -43,7 +43,7 @@ Updates have a chance to undo all of this. If you notice it, repeat the process 
 
 ## Notes
 
-I purposefully made the script explicit. One by one. I could have condensed it down as others would call it "more efficient", but elected not to. I realise some people might not fully understand what the script does. And laying it all out makes it slightly more understandable. So you see every action it makes as you read over it. Feel free to scrutinise it if you have any doubts.
+I purposefully made the script explicit. I could have condensed it down as others would call it "more efficient", but elected not to. I realise some people might not fully understand what the script does. And laying it all out makes it slightly more understandable. So you see every action it makes as you read over it. Feel free to scrutinise it if you have any doubts.
 
 The PowerShell script removes the fonts themselves, registry links, the Arial SxS directory and the manifest. Then copies the replacements fonts and links them with the registry. For those of you that do not know what the SxS store is, Windows will restore the original Arial fonts during a system clean up through the use of DISM. This defeats the purpose of replacing the fonts. So it has to go. Don't fret about future use, because DISM will pass a clean up if the files aren't counted. Because they're not there! Leaving the SxS sources there has some implications later down the line if you do have system errors that are entirely unrelated.
 
