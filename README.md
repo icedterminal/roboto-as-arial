@@ -51,7 +51,7 @@ While the script runs, when it gets to the SxS portion it will appear to hang. I
 
 I tested this script multiple times over with different versions of Windows 10 in VMs and had no issues. While there should be no complications using Roboto, there is an off chance something may not render correctly. Which is why I mention to make a restore point prior. In addition to the script copying the originals and making sure the Roboto font files have permissions that allow you to remove them.
 
-If you're wondering how this was/is possible, [allow me to break it down for you](https://getyarn.io/yarn-clip/75e5f36f-f484-4cc7-bc8d-d59c1cc0a4bb). I downloaded [Roboto v2](https://fonts.google.com/specimen/Roboto). Opened only the fonts I needed to replace Arial with in [FontCreator](https://www.high-logic.com/font-editor/fontcreator). Changed just the naming scheme while leaving everything else intact. Export. Done.
+If you're wondering how this was/is possible, [allow me to break it down for you](https://getyarn.io/yarn-clip/75e5f36f-f484-4cc7-bc8d-d59c1cc0a4bb). I downloaded [Roboto v2](https://fonts.google.com/specimen/Roboto). Opened only the fonts I needed to replace Arial with in [FontCreator](https://www.high-logic.com/font-editor/fontcreator). Changed just the naming scheme while leaving everything else intact. Export. Done. You can't just rename the font files from `Roboto.ttf` to `arial.ttf`. It doesn't work like that. You have to edit the font data naming scheme.
 
 # ReAlLY important bits
 
